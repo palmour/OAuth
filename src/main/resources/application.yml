@@ -1,0 +1,14 @@
+github:
+  client:
+    clientId: 237895291120.238685216005
+    clientSecret: d0de3b386567f7e2d90625bb6a6b9ea3
+    accessTokenUri: https://slack.com/api/oauth.access
+    userAuthorizationUri: https://slack.com/oauth/authorize
+    tokenName: oauth_token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+  resource:
+    userInfoUri: https://slack.com/api/users.info
+
+server:
+  port: 8181
