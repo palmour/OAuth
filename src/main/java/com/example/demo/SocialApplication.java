@@ -62,25 +62,14 @@ public class SocialApplication extends WebSecurityConfigurerAdapter{
 	
 	private Filter ssoFilter() {
 		
-		OAuth2ClientAuthenticationProcessingFilter githubFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/github");
-		OAuth2RestTemplate githubTemplate = new OAuth2RestTemplate(github(), oauth2ClientContext);
-		githubFilter.setRestTemplate(githubTemplate);
-		UserInfoTokenServices tokenServices = new UserInfoTokenServices(githubResource().getUserInfoUri(), github().getClientId());
-		tokenServices.setRestTemplate(githubTemplate);
-		githubFilter.setTokenServices(tokenServices);
-		return githubFilter;
-	}
-	
-	@Bean
-	@ConfigurationProperties("github.client")
-	public AuthorizationCodeResourceDetails github() {
-		return new AuthorizationCodeResourceDetails();
-	}
-	
-	@Bean
-	@ConfigurationProperties("github.resource")
-	public ResourceServerProperties githubResource() {
-		return new ResourceServerProperties();
+		OAuth2ClientAuthenticationProcessingFilter slackFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/github");
+		OAuth2RestTemplate slackTemplate = new OAuth2RestTemplate(slack(), oauth2ClientContext);
+		slackFilter.setRestTemplate(slackTemplate);
+		
+		UserInfoTokenServices tokenServices = new UserInfoTokenServices(slackResource().getUserInfoUri(), slack().getClientId());
+		tokenServices.setRestTemplate(slackTemplate);
+		slackFilter.setTokenServices(tokenServices);
+		return slackFilter;
 	}
 	
 	@Bean

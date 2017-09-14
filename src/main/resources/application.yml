@@ -1,9 +1,9 @@
-github:
-  client:
-    clientId: 237895291120.238685216005
-    clientSecret: d0de3b386567f7e2d90625bb6a6b9ea3
+slack:
+  client: 
+    clientId: "237895291120.241002501221"
+    clientSecret: 79c83d653ca6fb2dcd6b74d79bfa6cfc
     accessTokenUri: https://slack.com/api/oauth.access
-    userAuthorizationUri: https://slack.com/oauth/authorize
+    userAuthorizationUri: https://slack.com/oauth/authorize?scope=identity.basic,identity.email,identity.team,identity.avatar
     tokenName: oauth_token
     authenticationScheme: query
     clientAuthenticationScheme: form
