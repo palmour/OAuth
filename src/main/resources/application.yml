@@ -1,14 +1,29 @@
-slack:
+github:
   client: 
-    clientId: "237895291120.241002501221"
-    clientSecret: 79c83d653ca6fb2dcd6b74d79bfa6cfc
-    accessTokenUri: https://slack.com/api/oauth.access
-    userAuthorizationUri: https://slack.com/oauth/authorize?scope=identity.basic,identity.email,identity.team,identity.avatar
+    clientId: f7af28f26314d02ea5e5
+    clientSecret: e80ca8f96604ea7a748b06555d24dc4871ec1f70
+    accessTokenUri: https://github.com/login/oauth/access_token
+    userAuthorizationUri: https://github.com/login/oauth/authorize
     tokenName: oauth_token
     authenticationScheme: query
     clientAuthenticationScheme: form
   resource:
-    userInfoUri: https://slack.com/api/users.info
-
+    userInfoUri: https://api.github.com/user
+     
+slack:
+  client:
+    clientId: "237895291120.241002501221"
+    clientSecret: 79c83d653ca6fb2dcd6b74d79bfa6cfc
+    accessTokenUri: https://slack.com/api/oauth.access
+    userAuthorizationUri: https://slack.com/oauth/authorize
+    tokenName: token
+    authenticationScheme: query
+    clientAuthenticationScheme: form
+    scope: identity.basic
+  resource:
+    userInfoUri: https://slack.com/api/users.identity
+    tokenType: Bearer
+    preferTokenInfo: false
+    
 server:
   port: 8181

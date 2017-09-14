@@ -14,7 +14,8 @@
 <body ng-app="app" ng-controller="home as home">
 	<h1>Demo</h1>
 	<div class="container" ng-show="!home.authenticated">
-		Login with: <a href="/login/github">Slack</a>
+		Login with: <a href="/login/github">Github</a>
+		Login with: <a href="/login/slack">Slack</a>
 	</div>
 	
 	<div class="container" ng-show="home.authenticated">
@@ -29,7 +30,8 @@
 			var self = this;
 			$http.get("/user").success(function(data){
 				console.log(data);
-				self.user = data.userAuthentication.details.login;
+				console.log("actual name: " + data.details.name);
+				self.user = data.name.name;
 				self.authenticated = true;
 			}).error(function(){
 				console.log("error");

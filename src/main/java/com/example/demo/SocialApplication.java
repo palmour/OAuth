@@ -62,14 +62,27 @@ public class SocialApplication extends WebSecurityConfigurerAdapter{
 	
 	private Filter ssoFilter() {
 		
-		OAuth2ClientAuthenticationProcessingFilter slackFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/github");
+		CompositeFilter filter = new CompositeFilter();
+		List<Filter> filters = new ArrayList<>();
+		
+		OAuth2ClientAuthenticationProcessingFilter githubFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/github");
+		OAuth2RestTemplate githubTemplate = new OAuth2RestTemplate(github(), oauth2ClientContext);
+		githubFilter.setRestTemplate(githubTemplate);
+		UserInfoTokenServices tokenServices = new UserInfoTokenServices(githubResource().getUserInfoUri(), github().getClientId());
+		tokenServices.setRestTemplate(githubTemplate);
+		githubFilter.setTokenServices(tokenServices);
+		filters.add(githubFilter);
+		
+		OAuth2ClientAuthenticationProcessingFilter slackFilter = new OAuth2ClientAuthenticationProcessingFilter("/login/slack");
 		OAuth2RestTemplate slackTemplate = new OAuth2RestTemplate(slack(), oauth2ClientContext);
 		slackFilter.setRestTemplate(slackTemplate);
-		
-		UserInfoTokenServices tokenServices = new UserInfoTokenServices(slackResource().getUserInfoUri(), slack().getClientId());
+		tokenServices = new UserInfoTokenServices(slackResource().getUserInfoUri(), slack().getClientId());
 		tokenServices.setRestTemplate(slackTemplate);
 		slackFilter.setTokenServices(tokenServices);
-		return slackFilter;
+		filters.add(slackFilter);
+		
+		filter.setFilters(filters);
+		return filter;
 	}
 	
 	@Bean
@@ -90,6 +103,18 @@ public class SocialApplication extends WebSecurityConfigurerAdapter{
 	@Bean
 	@ConfigurationProperties("slack.resource")
 	public ResourceServerProperties slackResource() {
+		return new ResourceServerProperties();
+	}
+	
+	@Bean
+	@ConfigurationProperties("github.client")
+	public AuthorizationCodeResourceDetails github() {
+		return new AuthorizationCodeResourceDetails();
+	}
+
+	@Bean
+	@ConfigurationProperties("github.resource")
+	public ResourceServerProperties githubResource() {
 		return new ResourceServerProperties();
 	}
 }
